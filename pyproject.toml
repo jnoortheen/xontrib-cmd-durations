@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "xontrib-cmd-done"
-version = "0.2.0"
+version = "0.2.1"
 description = "Send notification once long running command is finished. Add duration PROMP_FIELD."
 authors = ["Noortheen Raja J <jnoortheen@gmail.com>"]
 
@@ -25,7 +25,7 @@ classifiers = [
 ]
 
 
-packages = [{ include = "xontrib/*.py" }]
+packages = [{ include = "xontrib" }]
 
 [tool.poetry.urls]
 Documentation = "https://github.com/jnoortheen/xontrib-cmd-done/blob/master/README.md"
