@@ -1,7 +1,5 @@
 import builtins
-import subprocess
-from notifypy import Notify
-from loguru import logger
+import logging
 
 xsh = builtins.__xonsh__
 LONG_DURATION = xsh.env.get("LONG_DURATION", 5)  # seconds
@@ -31,10 +29,13 @@ def secs_to_readable(secs: int):
 
 
 def get_current_window_id() -> str:
+    import subprocess
     return subprocess.check_output(["xdotool", "getactivewindow"]).decode().strip()
 
 
 def notify_user(hist, readable: str):
+    from xontrib.notifypy import Notify
+
     winid = xsh.env.get("WINDOWID")
     curr_winid = get_current_window_id()
     if curr_winid != winid:
@@ -60,7 +61,7 @@ def long_cmd_duration():
         try:
             notify_user(history, readable)
         except Exception as ex:
-            logger.warning(f"Failed to send notification {ex}")
+            logging.warning(f"Failed to send notification {ex}")
 
         return readable
     return None

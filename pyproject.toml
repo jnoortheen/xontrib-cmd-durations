@@ -36,7 +36,6 @@ Code = "https://github.com/jnoortheen/xontrib-cmd-done"
 [tool.poetry.dependencies]
 python = ">=3.6"
 xonsh = ">=0.9.20"
-notify-py = { git = "https://github.com/jnoortheen/notify-py" }
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.0" 
