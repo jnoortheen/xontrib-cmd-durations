@@ -25,7 +25,7 @@ classifiers = [
 ]
 
 
-# packages = [{ include = "xontrib/*.xsh" }]
+packages = [{ include = "xontrib/*.py" }]
 
 [tool.poetry.urls]
 Documentation = "https://github.com/jnoortheen/xontrib-cmd-done/blob/master/README.md"
