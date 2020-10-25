@@ -208,7 +208,7 @@ testing = ["Django (<3.1)", "colorama", "docopt", "pytest (>=3.9.0,<5.0.0)"]
 
 [[package]]
 name = "loguru"
-version = "0.4.1"
+version = "0.5.3"
 description = "Python logging made (stupidly) simple"
 category = "main"
 optional = false
@@ -220,7 +220,7 @@ colorama = {version = ">=0.3.4", markers = "sys_platform == \"win32\""}
 win32-setctime = {version = ">=1.0.0", markers = "sys_platform == \"win32\""}
 
 [package.extras]
-dev = ["codecov (>=2.0.15)", "colorama (>=0.3.4)", "flake8 (>=3.7.7)", "isort (>=4.3.20)", "tox (>=3.9.0)", "tox-travis (>=0.12)", "pytest (>=4.6.2)", "pytest-cov (>=2.7.1)", "Sphinx (>=2.2.1)", "sphinx-autobuild (>=0.7.1)", "sphinx-rtd-theme (>=0.4.3)", "black (>=19.3b0)"]
+dev = ["codecov (>=2.0.15)", "colorama (>=0.3.4)", "flake8 (>=3.7.7)", "tox (>=3.9.0)", "tox-travis (>=0.12)", "pytest (>=4.6.2)", "pytest-cov (>=2.7.1)", "Sphinx (>=2.2.1)", "sphinx-autobuild (>=0.7.1)", "sphinx-rtd-theme (>=0.4.3)", "black (>=19.10b0)", "isort (>=5.1.1)"]
 
 [[package]]
 name = "mypy-extensions"
@@ -231,15 +231,22 @@ optional = false
 python-versions = "*"
 
 [[package]]
-name = "notify-py"
-version = "0.2.3"
-description = "Cross-platform desktop notification library for Python"
+name = "notify_py"
+version = "0.2.4"
+description = ""
 category = "main"
 optional = false
 python-versions = ">=3.6.0"
+develop = false
 
 [package.dependencies]
-loguru = "0.4.1"
+loguru = "*"
+
+[package.source]
+type = "git"
+url = "https://github.com/jnoortheen/notify-py"
+reference = "master"
+resolved_reference = "0d14531f573a309bfeab8b5b9480a50c976f60c6"
 
 [[package]]
 name = "packaging"
@@ -486,7 +493,7 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.6"
-content-hash = "cb1d3bd9832a26c4b273a2ee2e0443d9eea821cb120e8b6fbb5acc3d411aa9e0"
+content-hash = "3d187202e5bce296ad9d18e68fcd8dd81bf6352c6166bcee69243885688c41a3"
 
 [metadata.files]
 aiocontextvars = [
@@ -571,17 +578,14 @@ jedi = [
     {file = "jedi-0.17.2.tar.gz", hash = "sha256:86ed7d9b750603e4ba582ea8edc678657fb4007894a12bcf6f4bb97892f31d20"},
 ]
 loguru = [
-    {file = "loguru-0.4.1-py3-none-any.whl", hash = "sha256:074b3caa6748452c1e4f2b302093c94b65d5a4c5a4d7743636b4121e06437b0e"},
-    {file = "loguru-0.4.1.tar.gz", hash = "sha256:a6101fd435ac89ba5205a105a26a6ede9e4ddbb4408a6e167852efca47806d11"},
+    {file = "loguru-0.5.3-py3-none-any.whl", hash = "sha256:f8087ac396b5ee5f67c963b495d615ebbceac2796379599820e324419d53667c"},
+    {file = "loguru-0.5.3.tar.gz", hash = "sha256:b28e72ac7a98be3d28ad28570299a393dfcd32e5e3f6a353dec94675767b6319"},
 ]
 mypy-extensions = [
     {file = "mypy_extensions-0.4.3-py2.py3-none-any.whl", hash = "sha256:090fedd75945a69ae91ce1303b5824f428daf5a028d2f6ab8a299250a846f15d"},
     {file = "mypy_extensions-0.4.3.tar.gz", hash = "sha256:2d82818f5bb3e369420cb3c4060a7970edba416647068eb4c5343488a6c604a8"},
 ]
-notify-py = [
-    {file = "notify_py-0.2.3-py3-none-any.whl", hash = "sha256:938ab498df3ba0437aac0f84abc601548786dafbfa7a10b65ed0b326e77f654a"},
-    {file = "notify_py-0.2.3.tar.gz", hash = "sha256:8a1da04dacf2693ede7cce1b111ed76350078cdae6b134db8d9014e7744f40c4"},
-]
+notify_py = []
 packaging = [
     {file = "packaging-20.4-py2.py3-none-any.whl", hash = "sha256:998416ba6962ae7fbd6596850b80e17859a5753ba17c32284f67bfff33784181"},
     {file = "packaging-20.4.tar.gz", hash = "sha256:4357f74f47b9c12db93624a82154e9b120fa8293699949152b22065d556079f8"},
