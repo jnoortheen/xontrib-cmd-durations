@@ -18,17 +18,14 @@ xpip install xontrib-cmd-done
 ## Usage
 
 ``` bash
-xontrib load cmd-done
-# TODO: what's next?
+xontrib load cmd_done
 ```
 
 ## Examples
 
-...
-
-## Known issues
-
-...
+``` bash
+$RIGHT_PROMPT = '{long_cmd_duration:⌛{}}{user:{{BOLD_RED}}🤖{}}{hostname:{{BOLD_#FA8072}}🖥{}}'
+```
 
 ## Credits
 

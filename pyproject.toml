@@ -25,7 +25,7 @@ classifiers = [
 ]
 
 
-packages = [{ include = "xontrib/*.xsh" }]
+# packages = [{ include = "xontrib/*.xsh" }]
 
 [tool.poetry.urls]
 Documentation = "https://github.com/jnoortheen/xontrib-cmd-done/blob/master/README.md"
@@ -36,11 +36,13 @@ Code = "https://github.com/jnoortheen/xontrib-cmd-done"
 [tool.poetry.dependencies]
 python = ">=3.6"
 xonsh = ">=0.9.20"
+notify-py = "^0.2.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.0" 
 black = { version = "^20.8b1", allow-prereleases = true } 
 yapf = "^0.30.0" # can be used to format .xsh files with the special rules
+ipython = "^7.10" 
 
 [build-system]
 requires = ["poetry>=0.12"]
