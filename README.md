@@ -27,10 +27,15 @@ xontrib load cmd_done
 * if the command is taking more than `$LONG_DURATION` seconds
   + it is `long_cmd_duration` returns the duration in human readable way
   + a desktop notification is sent if the terminal is not focused.
+    - **Note**: Currently the focusing part requires `xdotool` to be installed.
+
+        So the notification part will not work in Windows/OSX. PRs welcome on that.
 
 ``` bash
 $RIGHT_PROMPT = '{long_cmd_duration:⌛{}}{user:{{BOLD_RED}}🤖{}}{hostname:{{BOLD_#FA8072}}🖥{}}'
 ```
+
+![](./images/2020-10-26-10-59-38.png)
 
 ## Credits
 
