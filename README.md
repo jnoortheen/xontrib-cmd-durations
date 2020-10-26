@@ -1,9 +1,7 @@
-<p align="center">
-Send notification once long running command is finished. Add duration PROMP_FIELD.
-</p>
+# Overview
 
 <p align="center">
-If you like the idea click ⭐ on the repo and stay tuned.
+Send notification once long-running command is finished. Adds `long_cmd_duration` to `$PROMPT_FIELDS` .
 </p>
 
 ## Installation
@@ -23,7 +21,7 @@ xontrib load cmd_done
 
 ## Usage
 
-* makes `long_cmd_duration` available to the `$PROMP_FIELD `
+* makes `long_cmd_duration` available to the `$PROMPT_FIELDS`
 * if the command is taking more than `$LONG_DURATION` seconds
   + it is `long_cmd_duration` returns the duration in human readable way
   + a desktop notification is sent if the terminal is not focused.
