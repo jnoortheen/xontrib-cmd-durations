@@ -30,22 +30,28 @@ def secs_to_readable(secs: int):
 
 def get_current_window_id() -> str:
     import subprocess
+
     return subprocess.check_output(["xdotool", "getactivewindow"]).decode().strip()
 
 
 def notify_user(hist, readable: str):
     from xontrib.notifypy import Notify
 
-    winid = xsh.env.get("WINDOWID")
-    curr_winid = get_current_window_id()
-    if curr_winid != winid:
-        rtn = hist.rtns[-1]
-        cmd = hist.inps[-1]
+    rtn = hist.rtns[-1]
+    cmd = hist.inps[-1]
 
-        noti = Notify()
-        noti.title = str(f"xonsh {cmd}")
-        noti.message = f'{"Failed" if rtn else "Done"} in {readable}'
-        noti.send()
+    winid = xsh.env.get("WINDOWID")
+    try:
+        curr_winid = get_current_window_id()
+        if curr_winid == winid:
+            return
+    except Exception as ex:
+        logging.warning(f"Failed to send notification {ex}. Make sure that xdotool is installed.")
+
+    noti = Notify()
+    noti.title = str(f"xonsh {cmd}")
+    noti.message = f'{"Failed" if rtn else "Done"} in {readable}'
+    noti.send()
 
 
 def long_cmd_duration():
@@ -58,11 +64,7 @@ def long_cmd_duration():
 
     if interval > LONG_DURATION:
         readable = secs_to_readable(interval)
-        try:
-            notify_user(history, readable)
-        except Exception as ex:
-            logging.warning(f"Failed to send notification {ex}")
-
+        notify_user(history, readable)
         return readable
     return None
 
