@@ -11,8 +11,8 @@ If you like the idea click ⭐ on the repo and stay tuned.
 To install use pip:
 
 ``` bash
-xpip install xontrib-cmd-done
-# or: xpip install -U git+https://github.com/jnoortheen/xontrib-cmd-done
+xpip install xontrib-cmd-durations
+# or: xpip install -U git+https://github.com/jnoortheen/xontrib-cmd-durations
 ```
 
 ## Usage
@@ -21,7 +21,12 @@ xpip install xontrib-cmd-done
 xontrib load cmd_done
 ```
 
-## Examples
+## Usage
+
+* makes `long_cmd_duration` available to the `$PROMP_FIELD `
+* if the command is taking more than `$LONG_DURATION` seconds
+  + it is `long_cmd_duration` returns the duration in human readable way
+  + a desktop notification is sent if the terminal is not focused.
 
 ``` bash
 $RIGHT_PROMPT = '{long_cmd_duration:⌛{}}{user:{{BOLD_RED}}🤖{}}{hostname:{{BOLD_#FA8072}}🖥{}}'

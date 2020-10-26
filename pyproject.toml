@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "xontrib-cmd-done"
+name = "xontrib-cmd-durations"
 version = "0.2.2"
 description = "Send notification once long running command is finished. Add duration PROMP_FIELD."
 authors = ["Noortheen Raja J <jnoortheen@gmail.com>"]
@@ -7,7 +7,7 @@ authors = ["Noortheen Raja J <jnoortheen@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 
-repository = "https://github.com/jnoortheen/xontrib-cmd-done"
+repository = "https://github.com/jnoortheen/xontrib-cmd-durations"
 keywords = ['xontrib', 'xonsh']
 classifiers = [
     "Intended Audience :: Developers",
@@ -28,9 +28,9 @@ classifiers = [
 packages = [{ include = "xontrib" }]
 
 [tool.poetry.urls]
-Documentation = "https://github.com/jnoortheen/xontrib-cmd-done/blob/master/README.md"
-Code = "https://github.com/jnoortheen/xontrib-cmd-done"
-"Issue tracker" = "https://github.com/jnoortheen/xontrib-cmd-done/issues"
+Documentation = "https://github.com/jnoortheen/xontrib-cmd-durations/blob/master/README.md"
+Code = "https://github.com/jnoortheen/xontrib-cmd-durations"
+"Issue tracker" = "https://github.com/jnoortheen/xontrib-cmd-durations/issues"
 
 
 [tool.poetry.dependencies]
