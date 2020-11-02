@@ -34,6 +34,7 @@ $RIGHT_PROMPT = '{long_cmd_duration:⌛{}}{user:{{BOLD_RED}}🤖{}}{hostname:{{B
 ```
 
 ![](./images/2020-10-26-10-59-38.png)
+![](./images/2020-11-02-13-38-47.png)
 
 ## Credits
 
