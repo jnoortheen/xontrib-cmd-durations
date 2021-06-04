@@ -1,5 +1,4 @@
 import builtins
-import logging
 
 xsh = builtins.__xonsh__
 LONG_DURATION = xsh.env.get("LONG_DURATION", 5)  # seconds
@@ -35,8 +34,6 @@ def get_current_window_id() -> str:
 
 
 def notify_user(hist, readable: str):
-    from xontrib.notifypy import Notify
-
     rtn = hist.rtns[-1]
     cmd = hist.inps[-1]
 
@@ -46,8 +43,10 @@ def notify_user(hist, readable: str):
         if curr_winid == winid:
             return
     except Exception as ex:
+        import logging
         logging.warning(f"Failed to send notification {ex}. Make sure that xdotool is installed.")
 
+    from notifypy import Notify
     noti = Notify()
     noti.title = str(f"xonsh {cmd}")
     noti.message = f'{"Failed" if rtn else "Done"} in {readable}'
