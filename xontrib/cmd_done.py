@@ -6,6 +6,7 @@ from xonsh.events import events
 
 xsh = XSH
 LONG_DURATION = xsh.env.get("LONG_DURATION", 5)  # seconds
+CURRENT_WINDOW_ID = []
 
 
 def secs_to_readable(secs: int):
