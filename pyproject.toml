@@ -34,7 +34,7 @@ Code = "https://github.com/jnoortheen/xontrib-cmd-durations"
 
 [tool.poetry.dependencies]
 python = ">=3.6"
-xonsh = ">=0.9.20"
+xonsh = ">=0.10"
 notify-py = {version=">=0.3.3", python = ">=3.6,<4.0"}
 
 [tool.poetry.dev-dependencies]
