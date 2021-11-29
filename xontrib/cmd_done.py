@@ -124,7 +124,7 @@ def notify_user(hist, readable: str):
     from notifypy import Notify
 
     noti = Notify()
-    noti.title = str(f"xonsh {cmd}")
+    noti.title = str(f"{cmd}")
     noti.message = f'{"Failed" if rtn else "Done"} in {readable}'
     noti.send()
 
