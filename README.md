@@ -1,7 +1,7 @@
-# Overview
+## Overview
 
 <p align="center">
-Send notification once long-running command is finished. Adds `long_cmd_duration` to `$PROMPT_FIELDS` .
+Send notification once long-running command is finished and also show the execution time..
 </p>
 
 ## Installation
@@ -15,26 +15,29 @@ xpip install xontrib-cmd-durations
 
 ## Usage
 
-``` bash
-xontrib load cmd_done
-```
-
-## Usage
-
-* makes `long_cmd_duration` available to the `$PROMPT_FIELDS`
-* if the command is taking more than `$LONG_DURATION` seconds
-  + it is `long_cmd_duration` returns the duration in human readable way
-  + a desktop notification is sent if the terminal is not focused.
-    - **Note**: Currently the focusing part requires `xdotool` to be installed.
-
-        So the notification part will not work in Windows/OSX. PRs welcome on that.
+Add the `long_cmd_duration` section to the [prompt fields](https://xon.sh/tutorial.html#customizing-the-prompt) and load the xontrib i.e.:
 
 ``` bash
 $RIGHT_PROMPT = '{long_cmd_duration:⌛{}}{user:{{BOLD_RED}}🤖{}}{hostname:{{BOLD_#FA8072}}🖥{}}'
+$LONG_DURATION = 5  # default
+xontrib load cmd_done
 ```
 
+If the command is taking more than `$LONG_DURATION` seconds then `long_cmd_duration` returns the duration in human readable way:
+
 ![](./images/2020-10-26-10-59-38.png)
+
+The desktop notification is sent if the terminal is not focused:
+
 ![](./images/2020-11-02-13-38-47.png)
+
+Currently the focusing part requires `xdotool` to be installed.
+
+## Known issues
+
+### No notifications in Windows/OSX
+The notification part will not work in Windows/OSX. PRs welcome on that.
+
 
 ## Credits
 
