@@ -2,11 +2,10 @@ import functools
 import subprocess as sp
 
 from xonsh.built_ins import XSH
-from xonsh.events import events
 
 xsh = XSH
-LONG_DURATION = xsh.env.get("LONG_DURATION", 5)  # seconds
-CURRENT_WINDOW_ID = []
+LONG_DURATION = xsh.env.get("XONRTIB_CD_LONG_DURATION", 5)  # seconds
+TRIGGER_NOTIFICATION = xsh.env.get("XONRTIB_CD_TRIGGER_NOTIFICATION", True)
 
 
 def secs_to_readable(secs: int):
@@ -59,59 +58,45 @@ def _xdotool_window_id():
         )
 
 
-def _lsappinfo_window_id():
-    front_app = sp.check_output(["lsappinfo", "front"]).decode()
-    out = sp.check_output(
-        ["lsappinfo", "info", "-only", "bundleID", front_app]
-    ).decode()
-    return out.split('"')[-2]
-
-
-def get_current_window_id() -> str:
-    # https://stackoverflow.com/questions/10266281/obtain-active-window-using-python
-    if is_linux_system():
-        return _xdotool_window_id()
-    if is_darwin_system():
-        return _lsappinfo_window_id()
-    # snippet from https://github.com/franciscolourenco/done/blob/master/conf.d/done.fish
-    # elif test -n "$SWAYSOCK"
-    #     and type -q jq
-    #     swaymsg --type get_tree | jq '.. | objects | select(.focused == true) | .id'
-    # else if begin
-    #         test "$XDG_SESSION_DESKTOP" = gnome; and type -q gdbus
-    #     end
-    #     gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell --method org.gnome.Shell.Eval 'global.display.focus_window.get_id()'
-    # else if type -q xprop
-    #     and test -n "$DISPLAY"
-    #     # Test that the X server at $DISPLAY is running
-    #     and xprop -grammar >/dev/null 2>&1
-    #     xprop -root 32x '\t$0' _NET_ACTIVE_WINDOW | cut -f 2
-    #     else if uname -a | string match --quiet --ignore-case --regex microsoft
-    #         __done_run_powershell_script '
-    # Add-Type @"
-    #     using System;
-    #     using System.Runtime.InteropServices;
-    #     public class WindowsCompat {
-    #         [DllImport("user32.dll")]
-    #         public static extern IntPtr GetForegroundWindow();
-    #     }
-    # "@
-    # [WindowsCompat]::GetForegroundWindow()
-    # '
-
-
-def is_app_window_focused():
+def _linux_is_app_window_focused():
     winid = xsh.env.get("WINDOWID")
-    curr_winid = get_current_window_id()
+    if not winid:
+        import logging
+
+        logging.warning(
+            "Environment variable $WINDOWID is unset. It should be set by the terminal application on shell startup. "
+            "Not able to find active window."
+        )
+        return False
+    curr_winid = _xdotool_window_id()
     return curr_winid == winid
 
 
-@events.on_pre_rc
-def set_window_id(*_, **__):
-    winid = xsh.env.get("WINDOWID")
-    if not winid:
-        winid = get_current_window_id()
-    CURRENT_WINDOW_ID.append(winid)
+def _darwin_is_app_window_focused():
+    term = xsh.env.get("TERM_PROGRAM")
+    if not term:
+        import logging
+
+        logging.warning(
+            "Environment variable $TERM_PROGRAM is unset. "
+            "It should be set by the terminal application on shell startup. "
+            "Not able to find active window."
+        )
+        return False
+
+    term = str(term).rstrip(".app")
+    out = sp.check_output(["lsappinfo", "info", "-app", term])
+    return b"(in front)" in out
+
+
+def is_app_window_focused():
+    # https://stackoverflow.com/questions/10266281/obtain-active-window-using-python
+    if is_darwin_system():
+        return _darwin_is_app_window_focused()
+
+    if is_linux_system():
+        return _linux_is_app_window_focused()
+    return False
 
 
 def notify_user(hist, readable: str):
@@ -139,7 +124,8 @@ def long_cmd_duration():
 
     if interval > LONG_DURATION:
         readable = secs_to_readable(interval)
-        notify_user(history, readable)
+        if TRIGGER_NOTIFICATION:
+            notify_user(history, readable)
         return readable
     return None
 
