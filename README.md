@@ -41,4 +41,4 @@ The notification part will not work in Windows/OSX. PRs welcome on that.
 
 ## Credits
 
-This package was created with [xontrib cookiecutter template](https://github.com/xonsh/xontrib-cookiecutter).
+This package was created with [xontrib cookiecutter template](https://github.com/jnoortheen/xontrib-cookiecutter).
