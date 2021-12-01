@@ -8,6 +8,27 @@ LONG_DURATION = xsh.env.get("XONRTIB_CD_LONG_DURATION", 5)  # seconds
 TRIGGER_NOTIFICATION = xsh.env.get("XONRTIB_CD_TRIGGER_NOTIFICATION", True)
 
 
+def _term_program_mapping() -> dict:
+    """The app name doesn't match the $TERMPROGRAM . This is to map equivalent ones in OSX"""
+    defaults = {"iterm.app": "iTerm2", "apple_terminal": "Terminal"}
+
+    maps = xsh.env.get("XONTRIB_CD_TERM_PROGRAM_MAP", defaults)
+
+    return {key.lower(): val for key, val in maps.items()}
+
+
+@functools.lru_cache()
+def _darwin_get_app_name(term_program: str):
+    maps = _term_program_mapping()
+    return maps.get(term_program.lower(), term_program)
+
+
+def _warn(*args, **kwargs):
+    import logging
+
+    logging.warning(*args, **kwargs)
+
+
 def secs_to_readable(secs: int):
     """
 
@@ -51,19 +72,13 @@ def _xdotool_window_id():
     try:
         return sp.check_output(["xdotool", "getactivewindow"]).decode().strip()
     except Exception as ex:
-        import logging
-
-        logging.warning(
-            f"Failed to send notification {ex}. Make sure that xdotool is installed."
-        )
+        _warn(f"Failed to send notification {ex}. Make sure that xdotool is installed.")
 
 
 def _linux_is_app_window_focused():
     winid = xsh.env.get("WINDOWID")
     if not winid:
-        import logging
-
-        logging.warning(
+        _warn(
             "Environment variable $WINDOWID is unset. It should be set by the terminal application on shell startup. "
             "Not able to find active window."
         )
@@ -75,17 +90,21 @@ def _linux_is_app_window_focused():
 def _darwin_is_app_window_focused():
     term = xsh.env.get("TERM_PROGRAM")
     if not term:
-        import logging
-
-        logging.warning(
+        _warn(
             "Environment variable $TERM_PROGRAM is unset. "
             "It should be set by the terminal application on shell startup. "
             "Not able to find active window."
         )
         return False
 
-    term = str(term).rstrip(".app")
-    out = sp.check_output(["lsappinfo", "info", "-app", term])
+    appname = _darwin_get_app_name(term)
+    out = sp.check_output(["lsappinfo", "info", "-app", appname])
+    if not out:
+        _warn(
+            f"$TERM_PROGRAM={term} is not a valid app name. Existing mapping ({maps}) doesn't get the correct name. "
+            f"Please update $XONTRIB_CD_TERM_PROGRAM_MAP environment variable for your terminal."
+        )
+
     return b"(in front)" in out
 
 
