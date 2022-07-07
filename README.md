@@ -19,11 +19,11 @@ Add the `long_cmd_duration` section to the [prompt fields](https://xon.sh/tutori
 
 ``` bash
 $RIGHT_PROMPT = '{long_cmd_duration:⌛{}}{user:{{BOLD_RED}}🤖{}}{hostname:{{BOLD_#FA8072}}🖥{}}'
-$XONRTIB_CD_LONG_DURATION = 5  # default
+$XONTRIB_CD_LONG_DURATION = 5  # default
 xontrib load cmd_done
 ```
 
-If the command is taking more than `$XONRTIB_CD_LONG_DURATION` seconds then `long_cmd_duration` returns the duration in human readable way:
+If the command is taking more than `$XONTRIB_CD_LONG_DURATION` seconds then `long_cmd_duration` returns the duration in human readable way:
 
 ![](./images/2020-10-26-10-59-38.png)
 
@@ -38,7 +38,7 @@ Currently the focusing part requires `xdotool` to be installed.
 ### notifications in Windows
 On windows the notification will get triggered all the time. 
 `Finding whether the terminal is focused` is not implemented for Windows yet and PRs are very welcome on that.
-Set `$XONRTIB_CD_TRIGGER_NOTIFICATION = False` to completely off the notification part.
+Set `$XONTRIB_CD_TRIGGER_NOTIFICATION = False` to completely off the notification part.
 
 
 ## Credits

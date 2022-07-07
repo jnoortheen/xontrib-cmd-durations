@@ -4,8 +4,8 @@ import subprocess as sp
 from xonsh.built_ins import XSH
 
 xsh = XSH
-LONG_DURATION = xsh.env.get("XONRTIB_CD_LONG_DURATION", 5)  # seconds
-TRIGGER_NOTIFICATION = xsh.env.get("XONRTIB_CD_TRIGGER_NOTIFICATION", True)
+LONG_DURATION = xsh.env.get("XONTRIB_CD_LONG_DURATION", 5)  # seconds
+TRIGGER_NOTIFICATION = xsh.env.get("XONTRIB_CD_TRIGGER_NOTIFICATION", True)
 
 
 def _term_program_mapping() -> dict:
