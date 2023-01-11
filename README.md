@@ -47,7 +47,10 @@ If you want to change the app name in notification in MacOS you can use `$XONTRI
 $XONTRIB_CD_NOTIFICATION_APP_NAME = '{user}@{hostname}:{cwd}'
 $RIGHT_PROMPT = '{long_cmd_duration}'
 xontrib load cmd_done
+sleep 6
+# Switch to another window
 ```
+Result:
 
 ![](./images/notification-mac.png)
 
