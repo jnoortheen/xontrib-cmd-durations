@@ -49,6 +49,9 @@ $RIGHT_PROMPT = '{long_cmd_duration}'
 xontrib load cmd_done
 ```
 
+![](./images/notification-mac.png)
+
+
 ## Credits
 
 This package was created with [xontrib cookiecutter template](https://github.com/jnoortheen/xontrib-cookiecutter).
