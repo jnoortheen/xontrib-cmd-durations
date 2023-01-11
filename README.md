@@ -35,10 +35,25 @@ Currently the focusing part requires `xdotool` to be installed.
 
 ## Known issues
 
-### notifications in Windows
+### Notifications in Windows
 On windows the notification will get triggered all the time. 
 `Finding whether the terminal is focused` is not implemented for Windows yet and PRs are very welcome on that.
 Set `$XONTRIB_CD_TRIGGER_NOTIFICATION = False` to completely off the notification part.
+
+### Notifications in MacOS
+
+If you want to change the app name in notification in MacOS you can use `$XONTRIB_CD_NOTIFICATION_APP_NAME` environment variable with [automatically replaced keywords](https://xon.sh/tutorial.html#customizing-the-prompt):
+```xsh
+$XONTRIB_CD_NOTIFICATION_APP_NAME = '{user}@{hostname}:{cwd}'
+$RIGHT_PROMPT = '{long_cmd_duration}'
+xontrib load cmd_done
+
+sleep 6
+# Switch to another window
+```
+Result:
+
+![](./images/notification-mac.png)
 
 
 ## Credits

@@ -1,12 +1,11 @@
 import functools
 import subprocess as sp
 
-from xonsh.built_ins import XSH
+from xonsh.built_ins import XSH as xsh
 
-xsh = XSH
 LONG_DURATION = xsh.env.get("XONTRIB_CD_LONG_DURATION", 5)  # seconds
 TRIGGER_NOTIFICATION = xsh.env.get("XONTRIB_CD_TRIGGER_NOTIFICATION", True)
-
+NOTIFICATION_APP_NAME = xsh.env.get("XONTRIB_CD_NOTIFICATION_APP_NAME", xsh.env.get("TITLE", "xonsh"))
 
 def _term_program_mapping() -> dict:
     """The app name doesn't match the $TERMPROGRAM . This is to map equivalent ones in OSX"""
@@ -128,6 +127,7 @@ def notify_user(hist, readable: str):
     from notifypy import Notify
 
     noti = Notify()
+    noti.application_name = xsh.shell.prompt_formatter(NOTIFICATION_APP_NAME)
     noti.title = str(f"{cmd}")
     noti.message = f'{"Failed" if rtn else "Done"} in {readable}'
     noti.send()
