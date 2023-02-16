@@ -1,3 +1,5 @@
+"""Show long running commands durations in prompt with option to send notification when terminal is not focused. """
+
 import functools
 import subprocess as sp
 
