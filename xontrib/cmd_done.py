@@ -11,7 +11,7 @@ NOTIFICATION_APP_NAME = xsh.env.get("XONTRIB_CD_NOTIFICATION_APP_NAME", xsh.env.
 
 def _term_program_mapping() -> dict:
     """The app name doesn't match the $TERMPROGRAM . This is to map equivalent ones in OSX"""
-    defaults = {"iterm.app": "iTerm2", "apple_terminal": "Terminal"}
+    defaults = {"iterm.app": "iTerm2", "apple_terminal": "Terminal", "vscode": "Code"}
 
     maps = xsh.env.get("XONTRIB_CD_TERM_PROGRAM_MAP", defaults)
 
@@ -102,7 +102,7 @@ def _darwin_is_app_window_focused():
     out = sp.check_output(["lsappinfo", "info", "-app", appname])
     if not out:
         _warn(
-            f"$TERM_PROGRAM={term} is not a valid app name. Existing mapping ({maps}) doesn't get the correct name. "
+            f"$TERM_PROGRAM={term} is not a valid app name. Existing mapping in $XONTRIB_CD_TERM_PROGRAM_MAP doesn't get the correct name. "
             f"Please update $XONTRIB_CD_TERM_PROGRAM_MAP environment variable for your terminal."
         )
 
