@@ -9,12 +9,13 @@ LONG_DURATION = xsh.env.get("XONTRIB_CD_LONG_DURATION", 5)  # seconds
 TRIGGER_NOTIFICATION = xsh.env.get("XONTRIB_CD_TRIGGER_NOTIFICATION", True)
 NOTIFICATION_APP_NAME = xsh.env.get("XONTRIB_CD_NOTIFICATION_APP_NAME", xsh.env.get("TITLE", "xonsh"))
 
-_defaults = {"iterm.app": "iTerm2", "apple_terminal": "Terminal", "vscode": "Code", "pycharm": "PyCharm", "kate": "Kate"}
-_maps = xsh.env.get("XONTRIB_CD_TERM_PROGRAM_MAP", _defaults)
 
 def _term_program_mapping() -> dict:
     """The app name doesn't match the $TERMPROGRAM . This is to map equivalent ones in OSX"""
-    return {key.lower(): val for key, val in _maps.items()}
+    defaults = {"iterm.app": "iTerm2", "apple_terminal": "Terminal", "vscode": "Code", "pycharm": "PyCharm",
+                 "kate": "Kate"}
+    maps = xsh.env.get("XONTRIB_CD_TERM_PROGRAM_MAP", defaults)
+    return {key.lower(): val for key, val in maps.items()}
 
 
 @functools.lru_cache()
@@ -88,28 +89,31 @@ def _linux_is_app_window_focused():
 
 
 def _darwin_is_app_window_focused():
-    term = xsh.env.get("TERM_PROGRAM")
-    
-    if not term:
-        if ".pycharm" in xsh.env.get("__CFBundleIdentifier", ""):
-            term = "pycharm"
-        if ".Kate" in xsh.env.get("__CFBundleIdentifier", ""):
-            term = "kate"    
-    
-    if not term:
+    appname = None
+
+    bundle_id = xsh.env.get("__CFBundleIdentifier")
+    if bundle_id:
+        out = sp.check_output(["lsappinfo", "find", "bundleID=" + bundle_id]).strip()
+        appname = str(out).split("\"")[1]
+
+    if not appname:
+        if term := xsh.env.get("TERM_PROGRAM"):
+            appname = _darwin_get_app_name(term)
+
+    if not appname:
         _warn(
-            "Environment variable $TERM_PROGRAM is unset. "
-            "It should be set by the terminal application on shell startup. "
-            "Not able to find active window."
+            "xontrib-cmd-durations: "
+            f"Application not found by $__CFBundleIdentifier"
+            f"and because $TERM_PROGRAM ({repr(term)}) "
+            f"not found in $XONTRIB_CD_TERM_PROGRAM_MAP:\n"
+            f"({_term_program_mapping()})"
         )
         return False
 
-    appname = _darwin_get_app_name(term)
     out = sp.check_output(["lsappinfo", "info", "-app", appname])
     if not out:
         _warn(
-            f"$TERM_PROGRAM={term} is not a valid app name. Existing mapping in {_maps} doesn't get the correct name. "
-            f"Please update $XONTRIB_CD_TERM_PROGRAM_MAP environment variable for your terminal."
+            f"xontrib-cmd-durations: Application {appname} not found in lsappinfo."
         )
 
     return b"(in front)" in out
