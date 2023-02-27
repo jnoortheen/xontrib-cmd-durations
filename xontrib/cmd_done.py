@@ -103,7 +103,7 @@ def _darwin_is_app_window_focused():
     if not appname:
         _warn(
             "xontrib-cmd-durations: "
-            f"Application not found by $__CFBundleIdentifier"
+            f"Application not found by $__CFBundleIdentifier "
             f"and because $TERM_PROGRAM ({repr(term)}) "
             f"not found in $XONTRIB_CD_TERM_PROGRAM_MAP:\n"
             f"({_term_program_mapping()})"
