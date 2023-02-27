@@ -9,7 +9,7 @@ LONG_DURATION = xsh.env.get("XONTRIB_CD_LONG_DURATION", 5)  # seconds
 TRIGGER_NOTIFICATION = xsh.env.get("XONTRIB_CD_TRIGGER_NOTIFICATION", True)
 NOTIFICATION_APP_NAME = xsh.env.get("XONTRIB_CD_NOTIFICATION_APP_NAME", xsh.env.get("TITLE", "xonsh"))
 
-_defaults = {"iterm.app": "iTerm2", "apple_terminal": "Terminal", "vscode": "Code", "pycharm": "PyCharm"}
+_defaults = {"iterm.app": "iTerm2", "apple_terminal": "Terminal", "vscode": "Code", "pycharm": "PyCharm", "kate": "Kate"}
 _maps = xsh.env.get("XONTRIB_CD_TERM_PROGRAM_MAP", _defaults)
 
 def _term_program_mapping() -> dict:
@@ -90,8 +90,11 @@ def _linux_is_app_window_focused():
 def _darwin_is_app_window_focused():
     term = xsh.env.get("TERM_PROGRAM")
     
-    if not term and "pycharm" in xsh.env.get("__CFBundleIdentifier", ""):
-        term = "pycharm"
+    if not term:
+        if ".pycharm" in xsh.env.get("__CFBundleIdentifier", ""):
+            term = "pycharm"
+        if ".Kate" in xsh.env.get("__CFBundleIdentifier", ""):
+            term = "kate"    
     
     if not term:
         _warn(
