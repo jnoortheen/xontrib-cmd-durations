@@ -105,7 +105,7 @@ def _darwin_is_app_window_focused():
     out = sp.check_output(["lsappinfo", "info", "-app", appname])
     if not out:
         _warn(
-            f"$TERM_PROGRAM={term} is not a valid app name. Existing mapping in $XONTRIB_CD_TERM_PROGRAM_MAP doesn't get the correct name. "
+            f"$TERM_PROGRAM={term} is not a valid app name. Existing mapping in {_maps} doesn't get the correct name. "
             f"Please update $XONTRIB_CD_TERM_PROGRAM_MAP environment variable for your terminal."
         )
 
