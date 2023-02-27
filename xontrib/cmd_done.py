@@ -9,12 +9,12 @@ LONG_DURATION = xsh.env.get("XONTRIB_CD_LONG_DURATION", 5)  # seconds
 TRIGGER_NOTIFICATION = xsh.env.get("XONTRIB_CD_TRIGGER_NOTIFICATION", True)
 NOTIFICATION_APP_NAME = xsh.env.get("XONTRIB_CD_NOTIFICATION_APP_NAME", xsh.env.get("TITLE", "xonsh"))
 
+
 def _term_program_mapping() -> dict:
     """The app name doesn't match the $TERMPROGRAM . This is to map equivalent ones in OSX"""
-    defaults = {"iterm.app": "iTerm2", "apple_terminal": "Terminal"}
-
+    defaults = {"iterm.app": "iTerm2", "apple_terminal": "Terminal", "vscode": "Code", "pycharm": "PyCharm",
+                 "kate": "Kate"}
     maps = xsh.env.get("XONTRIB_CD_TERM_PROGRAM_MAP", defaults)
-
     return {key.lower(): val for key, val in maps.items()}
 
 
@@ -89,22 +89,26 @@ def _linux_is_app_window_focused():
 
 
 def _darwin_is_app_window_focused():
-    term = xsh.env.get("TERM_PROGRAM")
-    if not term:
-        _warn(
-            "Environment variable $TERM_PROGRAM is unset. "
-            "It should be set by the terminal application on shell startup. "
-            "Not able to find active window."
-        )
-        return False
+    out = None
+    bundle_id = ""
+    term_program = ""
 
-    appname = _darwin_get_app_name(term)
-    out = sp.check_output(["lsappinfo", "info", "-app", appname])
+    if bundle_id := xsh.env.get("__CFBundleIdentifier"):
+        out = sp.check_output(["lsappinfo", "info", "-bundleid", bundle_id])
+
+    elif term_program := xsh.env.get("TERM_PROGRAM"):
+        appname = _darwin_get_app_name(term_program)
+        out = sp.check_output(["lsappinfo", "info", "-app", appname])
+
     if not out:
         _warn(
-            f"$TERM_PROGRAM={term} is not a valid app name. Existing mapping ({maps}) doesn't get the correct name. "
-            f"Please update $XONTRIB_CD_TERM_PROGRAM_MAP environment variable for your terminal."
+            "xontrib-cmd-durations: "
+            f"Application not found by $__CFBundleIdentifier ({bundle_id}) "
+            f"and because $TERM_PROGRAM ({repr(term_program)}) "
+            f"not found in $XONTRIB_CD_TERM_PROGRAM_MAP:\n"
+            f"({_term_program_mapping()})"
         )
+        return False
 
     return b"(in front)" in out
 
