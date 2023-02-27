@@ -10,7 +10,7 @@ TRIGGER_NOTIFICATION = xsh.env.get("XONTRIB_CD_TRIGGER_NOTIFICATION", True)
 NOTIFICATION_APP_NAME = xsh.env.get("XONTRIB_CD_NOTIFICATION_APP_NAME", xsh.env.get("TITLE", "xonsh"))
 
 _defaults = {"iterm.app": "iTerm2", "apple_terminal": "Terminal", "vscode": "Code", "pycharm": "PyCharm"}
-_maps = xsh.env.get("XONTRIB_CD_TERM_PROGRAM_MAP", defaults)
+_maps = xsh.env.get("XONTRIB_CD_TERM_PROGRAM_MAP", _defaults)
 
 def _term_program_mapping() -> dict:
     """The app name doesn't match the $TERMPROGRAM . This is to map equivalent ones in OSX"""
