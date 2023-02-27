@@ -9,13 +9,12 @@ LONG_DURATION = xsh.env.get("XONTRIB_CD_LONG_DURATION", 5)  # seconds
 TRIGGER_NOTIFICATION = xsh.env.get("XONTRIB_CD_TRIGGER_NOTIFICATION", True)
 NOTIFICATION_APP_NAME = xsh.env.get("XONTRIB_CD_NOTIFICATION_APP_NAME", xsh.env.get("TITLE", "xonsh"))
 
+_defaults = {"iterm.app": "iTerm2", "apple_terminal": "Terminal", "vscode": "Code", "pycharm": "PyCharm"}
+_maps = xsh.env.get("XONTRIB_CD_TERM_PROGRAM_MAP", defaults)
+
 def _term_program_mapping() -> dict:
     """The app name doesn't match the $TERMPROGRAM . This is to map equivalent ones in OSX"""
-    defaults = {"iterm.app": "iTerm2", "apple_terminal": "Terminal", "vscode": "Code"}
-
-    maps = xsh.env.get("XONTRIB_CD_TERM_PROGRAM_MAP", defaults)
-
-    return {key.lower(): val for key, val in maps.items()}
+    return {key.lower(): val for key, val in _maps.items()}
 
 
 @functools.lru_cache()
@@ -90,6 +89,10 @@ def _linux_is_app_window_focused():
 
 def _darwin_is_app_window_focused():
     term = xsh.env.get("TERM_PROGRAM")
+    
+    if not term and "pycharm" in xsh.env.get("__CFBundleIdentifier", ""):
+        term = "pycharm"
+    
     if not term:
         _warn(
             "Environment variable $TERM_PROGRAM is unset. "
