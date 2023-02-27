@@ -90,19 +90,21 @@ def _linux_is_app_window_focused():
 
 def _darwin_is_app_window_focused():
     out = None
+    bundle_id = ""
+    term_program = ""
 
     if bundle_id := xsh.env.get("__CFBundleIdentifier"):
         out = sp.check_output(["lsappinfo", "info", "-bundleid", bundle_id])
 
-    if not out and (term := xsh.env.get("TERM_PROGRAM")):
-        appname = _darwin_get_app_name(term)
+    elif term_program := xsh.env.get("TERM_PROGRAM"):
+        appname = _darwin_get_app_name(term_program)
         out = sp.check_output(["lsappinfo", "info", "-app", appname])
 
     if not out:
         _warn(
             "xontrib-cmd-durations: "
             f"Application not found by $__CFBundleIdentifier ({bundle_id}) "
-            f"and because $TERM_PROGRAM ({repr(term)}) "
+            f"and because $TERM_PROGRAM ({repr(term_program)}) "
             f"not found in $XONTRIB_CD_TERM_PROGRAM_MAP:\n"
             f"({_term_program_mapping()})"
         )
