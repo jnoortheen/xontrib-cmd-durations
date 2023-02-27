@@ -92,7 +92,7 @@ def _darwin_is_app_window_focused():
     out = None
 
     if bundle_id := xsh.env.get("__CFBundleIdentifier"):
-        out = sp.check_output(["lsappinfo", "info", "-bundleid", bundle_id]).strip()
+        out = sp.check_output(["lsappinfo", "info", "-bundleid", bundle_id])
 
     if not out and (term := xsh.env.get("TERM_PROGRAM")):
         appname = _darwin_get_app_name(term)
