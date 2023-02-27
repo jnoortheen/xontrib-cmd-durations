@@ -1,7 +1,7 @@
 ## Overview
 
 <p align="center">
-Send notification once long-running command is finished and also show the execution time..
+Send notification once long-running command is finished and also show the execution time.
 </p>
 
 ## Installation
