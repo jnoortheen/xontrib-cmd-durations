@@ -112,7 +112,7 @@ def _darwin_is_app_window_focused():
     out = sp.check_output(["lsappinfo", "info", "-app", appname])
     if not out:
         _warn(
-            f"xontrib-cmd-durations: Application {appname} not found in lsappinfo."
+            f"xontrib-cmd-durations: Application {repr(appname)} not found in `lsappinfo`."
         )
 
     return b"(in front)" in out
