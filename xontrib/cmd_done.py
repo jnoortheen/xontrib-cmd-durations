@@ -91,8 +91,7 @@ def _linux_is_app_window_focused():
 def _darwin_is_app_window_focused():
     appname = None
 
-    bundle_id = xsh.env.get("__CFBundleIdentifier")
-    if bundle_id:
+    if bundle_id := xsh.env.get("__CFBundleIdentifier") :
         out = sp.check_output(["lsappinfo", "find", "bundleID=" + bundle_id]).strip()
         appname = str(out).split("\"")[1]
 
