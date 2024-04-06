@@ -8,7 +8,7 @@ dependencies = [
     "notify-py>=0.3.3; python_version >= \"3.6\" and python_version < \"4.0\"",
 ]
 name = "xontrib-cmd-durations"
-version = "0.3.0"
+version = "0.3.1"
 description = "Send notification once long running command is finished. Add duration PROMP_FIELD."
 readme = "README.md"
 keywords = [
