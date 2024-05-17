@@ -9,6 +9,9 @@ LONG_DURATION = xsh.env.get("XONTRIB_CD_LONG_DURATION", 5)  # seconds
 TRIGGER_NOTIFICATION = xsh.env.get("XONTRIB_CD_TRIGGER_NOTIFICATION", True)
 NOTIFICATION_APP_NAME = xsh.env.get("XONTRIB_CD_NOTIFICATION_APP_NAME", xsh.env.get("TITLE", "xonsh"))
 
+if isinstance(LONG_DURATION, str):
+    LONG_DURATION = int(LONG_DURATION)
+
 
 def _term_program_mapping() -> dict:
     """The app name doesn't match the $TERMPROGRAM . This is to map equivalent ones in OSX"""
